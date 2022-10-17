@@ -220,11 +220,11 @@ async fn main() {
      match &line[..] { "exit" => break
                      , "size" => println!("swarm.behaviour().mdns.discovered_nodes().len(): {:?}", swarm.behaviour().mdns.discovered_nodes().len())
                      , _      => if line.len() == 52 { 
-                                  if swarm.behaviour().mdns.discovered_nodes().len() > 0 {
+                                  if swarm.behaviour().mdns.discovered_nodes().find(|&&x| x.to_string() == line).expect("covert PeerId to String").to_string() == line {
                                    let letter = Letter { chain: vec![], receiver: line, request: true }                                                         ;
                                    swarm.behaviour_mut().floodsub.publish(topic.clone(), serde_json::to_string(&letter).expect("can jsonify letter").as_bytes());
                                    println!("{:?}", letter); thread::sleep(time::Duration::from_millis(*DELAY))                                                 ;
-                                  }//if swarm.behaviour().mdns.discovered_nodes().len() > 0 {
+                                  }//if swarm.behaviour().mdns.discovered_nodes().find(|&&x| x.to_string() == line).to_string() == line {
 
                                  } else {//if line.len() == 52 { 
                                   let block = block(&swarm.behaviour_mut().chain, &line)                                                                       ;
@@ -242,3 +242,4 @@ async fn main() {
   }//if let Some(event) = option {
  }//loop {
 }//async fn main() {
+
