@@ -23,9 +23,3 @@ pause
 start "five" cargo run -- "five"
 
 pause
-
-del Cargo.lock
-
-rmdir /s/q target
-
-pause
