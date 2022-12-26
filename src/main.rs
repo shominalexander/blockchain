@@ -28,13 +28,6 @@ struct Letter { chain   : Vec<Block>
               , receiver: String
               , request : bool
               }
-#[derive(Debug, Deserialize, Serialize)]
-struct Request { destination: String } 
-
-#[derive(Debug, Deserialize, Serialize)]
-struct Response { chain   : Vec<Block>
-                , receiver: String
-                }
 #[derive(NetworkBehaviour)]
 struct Behaviour { #[behaviour(ignore)] chain   : Vec<Block>
                  ,                      floodsub: Floodsub
