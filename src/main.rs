@@ -213,16 +213,16 @@ async fn main() {
      match &line[..] { "exit" => break
                      , "size" => println!("swarm.behaviour().mdns.discovered_nodes().len(): {:?}", swarm.behaviour().mdns.discovered_nodes().len())
                      , _      => if line.len() == 52 { 
-                                  if swarm.behaviour().mdns.discovered_nodes().find(|&&x| x.to_string() == line).expect("covert PeerId to String").to_string() == line {
+                                  if swarm.behaviour().mdns.discovered_nodes().find(|x| x.to_string() == line).is_some() {
                                    let letter = Letter { chain: vec![], receiver: line, request: true }                                                         ;
                                    swarm.behaviour_mut().floodsub.publish(topic.clone(), serde_json::to_string(&letter).expect("can jsonify letter").as_bytes());
                                    println!("{:?}", letter); thread::sleep(time::Duration::from_millis(*DELAY))                                                 ;
 
-                                  } else {//if swarm.behaviour().mdns.discovered_nodes().find(|&&x| x.to_string() == line).expect("covert PeerId to String").to_string() == line {
+                                  } else {//if swarm.behaviour().mdns.discovered_nodes().find(|x| x.to_string() == line).is_some() {
                                    let block = block(&swarm.behaviour_mut().chain, &line)                                                                       ;
                                    push(&block, &mut swarm.behaviour_mut().chain)                                                                               ;
                                    swarm.behaviour_mut().floodsub.publish(topic.clone(), serde_json::to_string(&block).expect("can jsonify request").as_bytes());
-                                  }//} else {//if swarm.behaviour().mdns.discovered_nodes().find(|&&x| x.to_string() == line).expect("covert PeerId to String").to_string() == line {
+                                  }//} else {//if swarm.behaviour().mdns.discovered_nodes().find(|x| x.to_string() == line).is_some() {
 
                                  } else {//if line.len() == 52 { 
                                   let block = block(&swarm.behaviour_mut().chain, &line)                                                                       ;
